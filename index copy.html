@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0" />
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="./images/favicon-32x32.png" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Barlow Semi Condensed" />
+  <title>Frontend Mentor | Rock, Paper, Scissors
+  </title>
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    @font-face {
+      font-family: "MyWebFont";
+      src: url("https://fonts.google.com/specimen/Barlow Semi Condensed");
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: "Barlow Semi Condensed";
+      font-variant-caps: all-petite-caps;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(at top,
+          hsl(214, 47%, 23%),
+          hsl(237, 49%, 15%));
+      background-repeat: no-repeat;
+      text-align: center;
+    }
+
+    #header {
+      width: 80%;
+      height: 100px;
+      max-width: 400px;
+      border-radius: 10px;
+      padding: 10px;
+      border: 3px hsl(217, 16%, 45%) solid;
+      margin: 20px auto -40px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .container {
+      color: hsl(228, 45%, 44%);
+      height: 100vh;
+      display: flex;
+      position: fixed;
+      width: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #buttons-cont {
+      background: url("./images/bg-triangle.svg");
+      background-repeat: no-repeat;
+      grid-template-areas:
+        "paper scissor"
+        "rock rock";
+      display: grid;
+      place-items: center;
+      background-position: center;
+      margin: auto auto;
+      min-width: 50%;
+      width: 230px;
+      height: 230px;
+    }
+
+    .choosed-cont>.choosed-btn-cont>.choosed-btn {
+      width: 170px;
+      height: 170px;
+      background-color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 50%;
+    }
+
+    #score {
+      color: hsl(229, 64%, 46%);
+      background-color: #fff;
+      border-radius: 5px;
+      flex-direction: column;
+      justify-content: center;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      font-family: cursive;
+      width: 80px;
+      height: 70px;
+      max-width: 100px;
+      font-size: 15px;
+    }
+
+    #score>span {
+      color: hsl(229, 25%, 31%);
+      border-radius: 5px;
+      font-size: 45px;
+      font-weight: 800;
+      height: 100%;
+    }
+
+    #buttons-cont>div {
+      background-color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50%;
+      height: 110px;
+      width: 110px;
+    }
+
+    #buttons-cont>div>img {
+      width: 60%;
+      height: 60%;
+    }
+
+    #buttons-cont>div:first-child {
+      border: solid 20px hsl(230, 89%, 62%);
+      box-shadow: 0px 5px 0px 1px hsl(230, 89%, 58%),
+        inset -0px 5px 3px rgb(187, 182, 182);
+      grid-area: paper;
+      background-image: url("./images/icon-paper.svg");
+    }
+
+    #buttons-cont>div:nth-child(2) {
+      border: solid 20px hsl(349, 71%, 52%);
+      box-shadow: 0px 5px 0px 1px hsl(349, 70%, 50%),
+        inset -0px 5px 3px rgb(187, 182, 182);
+      grid-area: rock;
+      background-image: url("./images/icon-rock.svg");
+    }
+
+    #buttons-cont>div:last-child {
+      border: solid 20px hsl(39, 89%, 49%);
+      box-shadow: 0px 5px 0px 1px hsl(39, 95%, 40%),
+        inset -0px 5px 3px rgb(187, 182, 182);
+      grid-area: scissor;
+      background-image: url("./images/icon-scissors.svg");
+    }
+
+    .choosed-cont {
+      max-width: 600px;
+      place-items: center;
+      justify-content: space-between;
+      margin: 0px auto 45%;
+      display: grid;
+      width: 80%;
+      height: 300px;
+    }
+
+    .choosed-cont>p {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 100px;
+      width: 100%;
+      font-size: 45px;
+    }
+
+    .choosed-cont>p>span {
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .choosed-cont>p>button {
+      font-variant-caps: all-petite-caps;
+      border: 0;
+      font-size: large;
+      height: 40px;
+      border-radius: 6px;
+    }
+
+    .choosed-cont>p>button:hover {
+      color: rgb(240, 16, 102);
+    }
+
+    .choosed-cont>.choosed-btn-cont>#player {
+      border: solid 15px hsl(39, 89%, 49%);
+      box-shadow: 0px 5px 0px 1px hsl(39, 95%, 40%),
+        inset -0px 5px 3px rgb(187, 182, 182);
+    }
+
+    .choosed-cont>.choosed-btn-cont>#computer {
+      border: solid 15px hsl(349, 71%, 52%);
+      box-shadow: 0px 5px 0px 1px hsl(349, 70%, 50%),
+        inset -0px 5px 3px rgb(187, 182, 182);
+    }
+
+    .choosed-cont>p>button {
+      color: hsl(229, 25%, 31%);
+    }
+
+    #placeholder {
+      background-color: hsl(229, 51%, 17%);
+      opacity: 0.9;
+      border-radius: 50%;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    .choosed-btn-cont {
+      color: #fff;
+      font-variant: small-caps;
+      display: flex;
+      gap: 30px;
+    }
+
+    #footer {
+      color: hsl(250, 250%, 250%);
+      position: absolute;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      bottom: 40px;
+    }
+
+    #overlay {
+      position: fixed;
+      display: flex;
+      background-size: 50%;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+      width: 100vw;
+      z-index: 999;
+      background-color: inherit;
+    }
+
+    #rules-screen {
+      place-items: center;
+      background-color: #fff;
+      display: grid;
+      height: 100%;
+      width: 100%;
+      grid-template-areas:
+        "header"
+        "img"
+        "close";
+    }
+
+    #rule-header {
+      grid-area: header;
+      margin: 0;
+      width: 100%;
+      color: hsl(229, 64%, 46%);
+      font-weight: 800;
+      font-size: 30px;
+    }
+
+    #close-pop {
+      width: 100%;
+      opacity: 0.5;
+      font-weight: 800;
+      grid-area: close;
+      color: hsl(217, 16%, 45%);
+      font-size: 25px;
+    }
+
+    #rule-img {
+      grid-area: img;
+      width: 70%;
+    }
+
+    .hide {
+      display: none !important;
+    }
+
+    @media screen and (max-width: 600px) {
+      #header img {
+        width: 80px;
+        margin: 10px;
+      }
+
+      /*
+      
+      #score {
+        margin: auto 0;
+        font-size: 10px;
+      }
+
+      
+    */
+      #buttons-cont {
+        justify-content: space-between;
+        background-size: contain;
+      }
+
+      #buttons-cont>div {
+        border-width: 13px !important;
+      }
+
+      #buttons-cont>div:first-child {
+        margin: -30px 0 0 -30px;
+      }
+
+      #buttons-cont>div:nth-child(2) {
+        margin-top: 20px;
+      }
+
+      #buttons-cont>div:last-child {
+        margin: -30px -30px 0 0px;
+      }
+
+      .choosed-cont {
+        min-width: 50%;
+        grid-template-areas:
+          "player computer"
+          "msg msg";
+        display: grid;
+        background-position: center;
+        background-size: contain;
+        row-gap: 20px !important;
+        align-items: stretch;
+        margin: 20px auto 50% !important;
+      }
+
+      .choosed-cont>.choosed-btn-cont>.choosed-btn {
+        width: 120px;
+        height: 120px;
+        flex-direction: column-reverse;
+        border-width: 13px;
+      }
+
+      #player-cont {
+        grid-area: player;
+        font-size: 14px;
+      }
+
+      #computer-cont {
+        grid-area: computer;
+        font-size: 14px;
+      }
+
+      .choosed-cont>p {
+        grid-area: msg;
+      }
+
+      .choosed-cont>p>span {
+        font-size: 100%;
+        font-variant-caps: all-petite-caps;
+      }
+
+      .choosed-cont>p>button {
+        margin: auto;
+        width: 80%;
+      }
+
+      #msg {
+        font-size: 30px;
+        min-height: 20px;
+      }
+
+      #placeholder {
+        grid-area: computer;
+        width: 100px;
+        height: 100px;
+        flex-direction: column-reverse;
+      }
+
+      .choosed-cont>.choosed-btn-cont {
+        width: 100%;
+        flex-direction: column-reverse;
+        font-size: 14px;
+      }
+
+      #rules {
+        color: white;
+        border: 2px solid white;
+        margin: auto;
+        height: 35px;
+        font-size: 16px;
+        border-radius: 7px;
+        width: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      @media screen and (max-height: 550px) {
+        #score>span {
+          font-size: 35px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 500px) {
+      .container {
+        gap: 30px;
+      }
+
+      #header {
+        width: 70%;
+        height: 18vh;
+        max-width: 600px;
+        border-radius: 20px;
+        padding: 15px;
+      }
+
+      #score {
+        width: 30%;
+        max-width: 120px;
+        height: 100%;
+        font-size: 20px;
+      }
+
+      #score>span {
+        height: 80%;
+      }
+
+      #buttons-cont {
+        margin: auto;
+        width: 300px;
+        height: 400px;
+        min-height: 300px;
+        min-width: 500px;
+        position: relative;
+        background-size: fit;
+        resize: both;
+      }
+
+      #buttons-cont>div {
+        height: 30vh;
+        width: 30vh;
+        max-width: 150px;
+        max-height: 150px;
+      }
+
+      #buttons-cont>div:first-child {
+        margin-top: -30px;
+      }
+
+      #buttons-cont>div:last-child {
+        margin-top: -30px;
+      }
+
+      .choosed-cont {
+        margin: auto;
+        width: 90%;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .choosed-cont>.choosed-btn-cont>.choosed-btn {
+        width: 170px;
+        height: 170px;
+      }
+
+      .choosed-cont>p {
+        min-width: 100px;
+        width: 150px;
+        font-size: 60px;
+        margin: 40px 20px 0;
+      }
+
+      .choosed-cont>p>span {
+        font-size: 70%;
+      }
+
+      .choosed-cont>p>button {
+        font-size: small;
+        height: 30px;
+        border-radius: 4px;
+        font-weight: 700;
+      }
+
+      #placeholder {
+        width: 140px;
+        height: 140px;
+      }
+
+      .choosed-btn-cont {
+        justify-content: space-between;
+        font-size: 20px;
+        flex-direction: column;
+      }
+
+      #footer {
+        border: 1px solid hsl(217, 16%, 45%);
+        width: 10%;
+        bottom: 20px;
+        right: 20px;
+        font-size: 20px;
+        border-radius: 4px;
+      }
+
+      #overlay {
+        background-color: hsla(0, 0%, 0%, 0.39);
+        padding: 50px;
+      }
+
+      #rules-screen {
+        height: 350px;
+        gap: 20px;
+        width: 350px;
+        margin: auto;
+        padding: 20px;
+        grid-template-areas:
+          "header close"
+          "img img";
+        border-radius: 10px;
+      }
+
+      #rule-header {
+        text-align: left;
+        font-size: 20px;
+      }
+
+      #close-pop {
+        font-size: 20px;
+        text-align: right;
+      }
+
+      #rule-img {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="overlay" class="hide">
+      <div id="rules-screen" class="hde">
+        <div id="close-pop">X</div>
+        <h3 id="rule-header">RULES</h3>
+        <img id="rule-img"
+          src="./images/image-rules.svg" alt="" />
+      </div>
+    </div>
+    <!-- Header -->
+    <div id="header">
+      <img src="./images/logo.svg" alt="" />
+      <!--Game Score -->
+      <div id="score">
+        score
+        <span id="score-count">0</span>
+      </div>
+    </div>
+    <div id="buttons-cont" class="buttons-cont">
+      <div class="btn" id="paper"></div>
+      <div class="btn" id="rock"></div>
+      <div class="btn" id="scissors"></div>
+    </div>
+
+    <div class="choosed-cont hide">
+      <div class="choosed-btn-cont"
+        id="player-cont">
+        <span>YOU PICKED</span>
+        <div id="player" class="choosed-btn">
+        </div>
+      </div>
+
+      <p id="nxt-action" class="hide">
+        <span id="msg"> YOU LOSE</span>
+        <button id="replay">play again</button>
+      </p>
+
+      <div class="choosed-btn-cont"
+        id="computer-cont">
+        <span>THE HOUSE PICKED</span>
+        <div id="computer"
+          class="choosed-btn hide"></div>
+        <div id="placeholder"></div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div id="rules">Rules</div>
+  </div>
+
+  <script>
+    var playerChoice;
+    const close = document.querySelector("#close-pop"),
+      rules = document.querySelector("#rules"),
+      ruleScreen = document.querySelector("#overlay"),
+      rock = document.querySelector("#rock"),
+      paper = document.querySelector("#paper"),
+      scissor = document.querySelector("#scissor"),
+      btns = document.querySelectorAll(".btn"),
+      player = document.querySelector("#player"),
+      computer = document.querySelector("#computer"),
+      placeholder = document.querySelector("#placeholder"),
+      buttonsCont = document.querySelector("#buttons-cont"),
+      nxtAction = document.querySelector("#nxt-action"),
+      msg = document.querySelector("#msg"),
+      selected = document.querySelector(".choosed-cont"),
+      replay = document.querySelector("#replay"),
+      scoreCount = document.querySelector("#score-count");
+    (toggleClass = (elem) => elem.classList.toggle("hide")),
+      (changePlayer = (e) => {
+        player.style.backgroundImage = `url('./images/icon-${e}.svg')`;
+        playerChoice = e;
+      }),
+      (changeComputer = (e) => {
+        computer.style.backgroundImage = `url('./images/icon-${e}.svg')`;
+        checkWinner(e, playerChoice);
+      }),
+      (changeFunc = (value) => {
+        toggleClass(buttonsCont);
+        toggleClass(selected);
+        changePlayer(value.target.id);
+
+        setTimeout(() => {
+          toggleClass(computer);
+          toggleClass(nxtAction);
+          toggleClass(placeholder);
+          var computerNumChoice = Math.floor(Math.random() * 10);
+          if (computerNumChoice < 5) {
+            changeComputer("scissors");
+            return;
+          }
+          if (computerNumChoice < 7 && 4 < computerNumChoice) {
+            changeComputer("rock");
+          }
+          if (computerNumChoice < 10 && 7 < computerNumChoice) {
+            changeComputer("paper");
+          }
+        }, 500);
+      }),
+      (show = (e) => {
+        playerChoice = "";
+        if (e === "l") msg.textContent = "You Lose";
+        if (e === "w") {
+          msg.textContent = "You Win";
+          scoreCount.textContent++;
+        }
+      }),
+      (checkWinner = (com, pl) => {
+        if (com === pl) {
+          msg.textContent = "It a Draw";
+          return;
+        }
+        if (com === "paper" && pl === "rock") {
+          show("l");
+        } else if (com === "rock" && pl === "scissors") {
+          show("l");
+        } else if (com === "scissors" && pl === "paper") {
+          show("l");
+        } else {
+          show("w");
+        }
+      });
+    replay.addEventListener("click", (e) => {
+      toggleClass(placeholder);
+      toggleClass(computer);
+      toggleClass(nxtAction);
+      toggleClass(buttonsCont);
+      toggleClass(selected);
+    });
+    Array.from(btns).forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        changeFunc(e);
+      });
+    });
+    rules.addEventListener("click", (e) => {
+      toggleClass(ruleScreen);
+    });
+    close.addEventListener("click", (e) => {
+      toggleClass(ruleScreen);
+    });
+  </script>
+</body>
+
+</html>
